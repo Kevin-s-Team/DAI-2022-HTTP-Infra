@@ -1,2 +1,2 @@
-FROM php:8.1-apache
-COPY ./www/ /var/www/
+FROM php:7.2-apache
+COPY ./Gp/ /var/www/html/
