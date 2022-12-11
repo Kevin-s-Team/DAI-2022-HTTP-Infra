@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  static:
+    image: "smtp_piccin_jorand/apache-php"
+    ports:
+      - "80:80"
+      - "443:443"
+  dynamic:
+    image: "http_piccin_jorand/express"
+    ports:
+      - "3000:3000"

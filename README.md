@@ -29,3 +29,9 @@ Les commandes suivantes ont été utiles:
 ```npm install --save chance``` => pour ajouter le module chance à l'application
 
 ```npm install --save express``` => pour ajouter le module express.js à l'application
+
+## Step 3: Docker compose to build the infrastructure
+
+Les instructions sont stockées dans docker-compose.yml
+
+Pour démarrer l'infrastructure utiliser : ```docker compose up```
