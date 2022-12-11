@@ -35,3 +35,7 @@ Les commandes suivantes ont été utiles:
 Les instructions sont stockées dans docker-compose.yml
 
 Pour démarrer l'infrastructure utiliser : ```docker compose up```
+
+### Step 3a: Dynamic cluster management
+
+Pour lancer plusieurs instances des 2 serveurs webs utiliser : ```docker compose up --scale dynamic=2 --scale static=2```
