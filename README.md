@@ -42,4 +42,10 @@ Pour lancer plusieurs instances des 2 serveurs webs utiliser : ```docker compose
 
 ## Step 4: 
 
-On choisi l'option avec montage de volume pour l'édition en live. On a choisi l'utilisation de la Fetch API plustôt que de jQuery
+On choisi l'option avec montage de volume pour l'édition en live. On a choisi l'utilisation de la Fetch API plustôt que de jQuery. Il n'y a pas eu grand-chose à configurer ... plutôt comprendre / apprendre / appliquer. Cela se voit relativement bien par les commits assez peu volumineux.
+
+On peut construire le tout et tester avec la commande : 
+```ps
+.\buildAllAndRunScale.ps1 -dynamicScale 3 -staticScale 4
+```
+Qui va lancer 3 instances dynamiques et 4 instances statiques.
