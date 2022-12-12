@@ -1,2 +1,4 @@
 FROM php:8.1-apache
-COPY ./Gp/ /var/www/html/
+
+# Volume mounted dynamically through docker compose for dev purpose
+# COPY ./Gp/ /var/www/html/

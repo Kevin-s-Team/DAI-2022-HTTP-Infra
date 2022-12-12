@@ -39,3 +39,7 @@ Pour démarrer l'infrastructure utiliser : ```docker compose up```
 ### Step 3a: Dynamic cluster management
 
 Pour lancer plusieurs instances des 2 serveurs webs utiliser : ```docker compose up --scale dynamic=2 --scale static=2```
+
+## Step 4: 
+
+On choisi l'option avec montage de volume pour l'édition en live. On a choisi l'utilisation de la Fetch API plustôt que de jQuery
