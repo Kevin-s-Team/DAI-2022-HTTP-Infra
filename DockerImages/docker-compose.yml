@@ -20,6 +20,8 @@ services:
       - "443"
     labels: 
       - "traefik.http.routers.static.rule=Host(`localhost`)"
+      - "traefik.http.services.static.loadbalancer.sticky=true"
+      - "traefik.http.services.static.loadbalancer.sticky.cookie.name=StickyCookie"
   dynamic:
     image: "http_piccin_jorand/express"
     ports:

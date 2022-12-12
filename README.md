@@ -39,3 +39,15 @@ Pour démarrer l'infrastructure utiliser : ```docker compose up```
 ### Step 3a: Dynamic cluster management
 
 Pour lancer plusieurs instances des 2 serveurs webs utiliser : ```docker compose up --scale dynamic=2 --scale static=2```
+
+
+## Step 5 : Load balancing: round-robin and sticky sessions
+
+On ajoute les 2 lignes suivantes dans le docker-compose.yml pour le service static
+
+```
+- "traefik.http.services.static.loadbalancer.sticky=true"
+- "traefik.http.services.static.loadbalancer.sticky.cookie.name=StickyCookie"
+```
+
+On voit que Traefik utilise des cookies pour gérer des sticky sessions
