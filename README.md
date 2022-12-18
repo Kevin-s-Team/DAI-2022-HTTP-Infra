@@ -51,3 +51,13 @@ On ajoute les 2 lignes suivantes dans le docker-compose.yml pour le service stat
 ```
 
 On voit que Traefik utilise des cookies pour gérer des sticky sessions
+
+## Step 6: Management UI
+
+Pour cette étape nous avons choisi une solution déja existante trouvée sur Internet : Portainer
+
+Nous avons ajouté le service portainer dans le docker-compose en utilisant l'image portainer/portainer
+
+On accède à l'UI portainer en utilisant le port 9000 (localhost:9000) depuis un navigateur
+
+
