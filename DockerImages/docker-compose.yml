@@ -24,6 +24,9 @@ services:
     ports:
       - "80"
       - "443"
+    #volumes:
+      # For "live-editing" (during dev)
+      #- .\ApachePHP\Gp\:/var/www/html/:ro
     labels: 
       - "traefik.http.routers.static.rule=Host(`localhost`)"
       - "traefik.http.services.static.loadbalancer.sticky=true"

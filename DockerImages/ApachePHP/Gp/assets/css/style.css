@@ -627,9 +627,8 @@ section {
 # Features
 --------------------------------------------------------------*/
 .features {
-  padding-top: 20px;
+  padding-top: 5em;
 }
-
 .features .icon-box {
   padding-left: 15px;
 }
