@@ -16,6 +16,10 @@ Pour accéder au container : ```docker exec -it <nom container> /bin/bash```
 
 Ensuite on peut naviguer dans l'arborescence du système en utilisant la commande cd
 
+### Note
+
+Après quelques essais sur le contenu du labo, nous n'avons rencontré aucun problème à l'utilisation de php 8.1. Raison pour laquelle nous avons choisi de partir sur la version actuelle plutôt que la version précédente.
+
 ## Step 2: Dynamic HTTP server with express.js
 
 Notre container qui utilise express.js renvoie la météo de différentes villes au client sous format JSON.
