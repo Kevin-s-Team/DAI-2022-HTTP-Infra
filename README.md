@@ -7,7 +7,6 @@ Célestin Piccin & Kévin Jorand
 
 General description
 
-# TODO
 ## Step 1: Static HTTP server with apache httpd
 
 Les fichiers de configuration apache se trouvent dans le dossier /etc/apache2
@@ -15,6 +14,10 @@ Les fichiers de configuration apache se trouvent dans le dossier /etc/apache2
 Pour accéder au container : ```docker exec -it <nom container> /bin/bash```
 
 Ensuite on peut naviguer dans l'arborescence du système en utilisant la commande cd
+
+### Note
+
+Après quelques essais sur le contenu du labo, nous n'avons rencontré aucun problème à l'utilisation de php 8.1. Raison pour laquelle nous avons choisi de partir sur la version actuelle plutôt que la version précédente.
 
 ## Step 2: Dynamic HTTP server with express.js
 
@@ -40,6 +43,15 @@ Pour démarrer l'infrastructure utiliser : ```docker compose up```
 
 Pour lancer plusieurs instances des 2 serveurs webs utiliser : ```docker compose up --scale dynamic=2 --scale static=2```
 
+## Step 4: 
+
+On choisi l'option avec montage de volume pour l'édition en live. On a choisi l'utilisation de la Fetch API plustôt que de jQuery. Il n'y a pas eu grand-chose à configurer ... plutôt comprendre / apprendre / appliquer. Cela se voit relativement bien par les commits assez peu volumineux.
+
+On peut construire le tout et tester avec la commande : 
+```ps
+.\buildAllAndRunScale.ps1 -dynamicScale 3 -staticScale 4
+```
+Qui va lancer 3 instances dynamiques et 4 instances statiques.
 
 ## Step 5 : Load balancing: round-robin and sticky sessions
 
