@@ -118,7 +118,12 @@ Afin d'utiliser l'option sticky session, on ajoute les 2 labels suivants dans le
 On remarque que Traefik utilise des cookies pour gérer des sticky sessions.
 
 ### Procédure de validation
-La validation peut se faire en faisant un docker compose up et en utilisant l'option --scale pour lancer plusieurs instances.
+La validation peut se faire en lancant plusieurs instances des serveurs webs, soit en faisant un docker compose up et en utilisant l'option --scale soit en utilisant les scripts fournis. Attention tout de même que docker compose up ne rebuild PAS les images, si les images doivent être rebuild utilisé la commande docker compose build avant de faire le docker compose up.
+
+Après le lancement, on doit voir dans la console un résultat similaire à ca :
+//mettre image
+
+Si on se rend sur le site static et qu'on fait plusieurs refresh, on peut voir dans la console que c'est toujours le même container qui répond au client. Si maintenant on stope le container qui répondait au client et qu'on refait un refresh de la page on voit que le load balancer fait bien son travail car c'est une autre instance du serveur statique qui répond au client. Par la même occasion on remarque aussi que les instances continuent bien à utiliser du round-robin.
 
 
 ## Step 6: Management UI
