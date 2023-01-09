@@ -15,7 +15,7 @@ Le résultat final contiendra deux serveurs HTTP (un dynamique et un statique), 
 
 Les fichiers de configuration apache se trouvent dans le dossier ```/etc/apache2```. Dans notre cas nous n'avons pas touché aux fichiers de configuration car la config par défaut d'apache est suffisante.
 
-Pour accéder a un container en exécution : ```docker exec -it <nom container> /bin/bash```
+Pour accéder à un container en exécution : ```docker exec -it <nom container> /bin/bash```
 
 Ensuite on peut naviguer dans l'arborescence du système en utilisant la commande ```cd```.
 
@@ -94,9 +94,9 @@ Pour lancer plusieurs instances des 2 serveurs webs il suffit d'utiliser la comm
 
 Cette commande utilise l'option ```--scale``` pour démarrer 2 serveurs webs statiques et 2 serveurs webs dynamiques. On a donc 5 containers au total qui sont créés à partir de cette commande.
 
-On notera aussi que pour le service static et dynamic on ne précise pas le ```HOST_PORT``` dans la section ```ports:```. Un port aléatoire est donc choisi par le système. Ceci est nécessaire car par exemple si on précise le ```HOST_PORT``` et on lance 2 instances du service static une erreur serai générée car on aurait 2 containers utilisant le même ```HOST_PORT```.
+On notera aussi que pour le service static et dynamic on ne précise pas le ```HOST_PORT``` dans la section ```ports:```. Un port aléatoire est donc choisi par le système. Ceci est nécessaire car par exemple si on précise le ```HOST_PORT``` et on lance 2 instances du service static une erreur serait générée car on aurait 2 containers utilisant le même ```HOST_PORT```.
 
-## Step 4: AJAX requests with JQuery
+## Step 4: AJAX requests
 
 On choisi l'option avec montage de volume pour l'édition en live. On a choisi l'utilisation de la Fetch API plustôt que de jQuery. Il n'y a pas eu grand-chose à configurer ... plutôt comprendre / apprendre / appliquer. Cela se voit relativement bien par les commits assez peu volumineux.
 
