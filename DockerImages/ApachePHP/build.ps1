@@ -1,1 +1,1 @@
-docker build --tag smtp_piccin_jorand/apache-php .
+docker build --tag http_piccin_jorand/apache-php .
