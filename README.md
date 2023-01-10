@@ -10,7 +10,6 @@ Le but de ce laboratoire est de découvrir et se familiariser avec différents o
 
 Le résultat final contiendra *(minimum)* deux serveurs HTTP (un dynamique et un statique), un reverse-proxy et un manager de containers Docker.
 
-
 ## Step 1: Static HTTP server with apache httpd
 
 Les fichiers de configuration apache se trouvent dans le dossier ```/etc/apache2```. Dans notre cas nous n'avons pas touché aux fichiers de configuration car la config par défaut d'apache est suffisante.
@@ -25,7 +24,7 @@ Deux scripts sont disponibles:
  - ```build.ps1``` :  crée notre image à partir du Dockerfile 
  - ```run.ps1``` : lance un nouveau container à partir de l'image créée par build.ps1
 
-Si un container est en exécution : ```loaclhost:80``` (ou simplement ```loaclhost:```, `80` étant le port par défaut pour le contenu web) pour accéder a notre site web.
+Si un container est en exécution : ```loaclhost:80``` (ou simplement ```loaclhost```, `80` étant le port par défaut pour le contenu web) pour accéder a notre site web.
 
 ### Note
 

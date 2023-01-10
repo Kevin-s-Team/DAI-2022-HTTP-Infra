@@ -1,0 +1,41 @@
+version: "3.9"
+services:
+  portainer:
+    image: portainer/portainer
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  reverse-proxy:
+    # The official v2 Traefik docker image
+    image: traefik:v2.9
+    # Enables the web UI and tells Traefik to listen to docker
+    command: --api.insecure=true --providers.docker
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+  static:
+    # image: "smtp_piccin_jorand/apache-php" # utilise une image déjà construite plutôt que d'en construire une nouvelle correspondant au Dockerfile
+    build: ./ApachePHP
+    ports:
+      - "80"
+      - "443"
+    #volumes:
+      # For "live-editing" (during dev)
+      #- .\ApachePHP\Gp\:/var/www/html/:ro
+    labels: 
+      - "traefik.http.routers.static.rule=Host(`localhost`)"
+      - "traefik.http.services.static.loadbalancer.sticky=true"
+      - "traefik.http.services.static.loadbalancer.sticky.cookie.name=StickyCookie"
+  dynamic:
+    # image: "http_piccin_jorand/express" # same as static
+    build: ./Express
+    ports:
+      - "3000"
+    labels: 
+      - "traefik.http.routers.dynamic.rule=(Host(`localhost`) && PathPrefix(`/api`))"
