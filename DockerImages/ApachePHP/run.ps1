@@ -1,1 +1,1 @@
-docker run -p 80:80 -p 443:443 -d smtp_piccin_jorand/apache-php
+docker run -p 80:80 -p 443:443 -d http_piccin_jorand/apache-php
