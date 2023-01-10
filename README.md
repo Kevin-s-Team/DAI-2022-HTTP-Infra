@@ -57,7 +57,9 @@ De la même manière que pour l'étape 1, deux scripts sont disponibles :
 Si un container est en exécution on accède au site web dynamique à partir de ```localhost:3000```.
 
 ### Note
-Le dossier `node_modules` n'a pas été `push` sur Github pour respecter les standards et car il est relativement volumineux. De ce fait avant de `build` notre image, il faut générer le dossier en local. Pour ce faire, il faut utiliser la commande ```npm i``` dans le dossier ```/src/```  (là ou se trouvent ```package.json```).
+Le dossier `node_modules` n'a pas été `push` sur Github pour respecter les standards et car il est relativement volumineux. ~~De ce fait avant de `build` notre image, il faut générer le dossier en local. Pour ce faire, il faut utiliser la commande ```npm i``` dans le dossier ```/src/```  (là ou se trouvent ```package.json```).~~
+
+**Nous avons pris le parti de générer le dosier `node_modules` (et le `package-lock.json` généré au ```npm i```) directement dans l'image lors de sa création. Cela offre l'avantage d'avoir ainsi directement les fichiers de librairies adaptés pour le bon environnement et permet aussi d'avoir le tout qui est fait par le `docker build`.**
 
 ## Step 3: Docker compose to build the infrastructure
 
@@ -104,6 +106,13 @@ On peut construire le tout et tester avec la commande :
 ```
 Qui va lancer 3 instances dynamiques et 4 instances statiques.
 
+## Note
+
+Suite aux diverses modifications / améliorations, la nécessité de "build" avant de lancer notre `docker compose up` a été éliminée. On peut ainsi utiliser simplement:
+```ps
+.\runScale.ps1 -dynamicScale 3 -staticScale 4
+```
+
 ## Step 5 : Load balancing: round-robin and sticky sessions
 
 Afin d'utiliser l'option sticky session, on ajoute les 2 labels suivants dans le ```docker-compose.yml``` pour le service static.
@@ -116,7 +125,7 @@ Afin d'utiliser l'option sticky session, on ajoute les 2 labels suivants dans le
 On remarque que Traefik utilise des cookies pour gérer des sticky sessions.
 
 ### Procédure de validation
-La validation peut se faire en lançant plusieurs instances des serveurs webs, soit en faisant un docker compose up et en utilisant l'option ```--scale``` soit en utilisant les scripts fournis. Attention tout de même que ```docker compose up``` ne rebuild PAS les images, si les images doivent être rebuild utilisé la commande ```docker compose build``` avant de faire le ```docker compose up```, ou alternativement la commande ```docker compose up --build```.
+La validation peut se faire en lançant plusieurs instances des serveurs webs, soit en faisant un docker compose up et en utilisant l'option ```--scale``` soit en utilisant les scripts fournis. Attention tout de même que ```docker compose up``` ne rebuild PAS les images, si les images doivent être rebuild utiliser la commande ```docker compose build``` avant de faire le ```docker compose up```, ou alternativement la commande ```docker compose up --build```.
 
 Après le lancement, on doit voir dans la console un résultat similaire à ceci :
 ![](images/scale.PNG)
