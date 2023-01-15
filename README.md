@@ -13,6 +13,9 @@ Le résultat final contiendra *(minimum)* deux serveurs HTTP (un dynamique et un
 ### Note
 Les différentes infos données dans les "steps" ... ne sont parfois valable qu'à cette étape puisque certaines étapes ont nécessité l'édition des étapes précédentes ... 
 
+### Note 2
+Certaines notes ont été prises au fur et à mesure des steps, mais la documentation (y. compris pour chaque step) valide est bien celle de la branche `main`. Cette denière contient aussi la dernière version du reste du code (step 6).
+
 ## Step 1: Static HTTP server with apache httpd
 
 Les fichiers de configuration apache se trouvent dans le dossier ```/etc/apache2```. Dans notre cas nous n'avons pas touché aux fichiers de configuration car la config par défaut d'apache est suffisante.
@@ -21,7 +24,7 @@ Pour accéder à un container en exécution : ```docker exec -it <nom container>
 
 Ensuite on peut naviguer dans l'arborescence du système en utilisant la commande ```cd```.
 
-Le Dockerfile utilise l'image php 8.1 avec apache (```php:8.1-apache```). Après quelques essais sur le contenu du labo, nous n'avons rencontré aucun problème à l'utilisation de php 8.1. Puisque nous n'avons éprouvé aucune des difficultés qu'on nous avait prédites, nous avons ainsi pris le parti d'utiliser la dernière version stable d'alors. Cela nous a semblé être une meilleure chose puisque cela retarde l'obsolescence de notre projet. 
+Le Dockerfile utilise l'image php 8.1 avec apache (```php:8.1-apache```). Après quelques essais sur le contenu du labo, nous n'avons rencontré aucun problème à l'utilisation de php 8.1. Puisque nous n'avons éprouvé aucune des difficultés qu'on nous avait prédites, nous avons ainsi pris le parti d'utiliser la dernière version stable d'alors. Cela nous a semblé être une meilleure chose puisque cela retarde l'obsolescence de notre projet. Nous remarquons de plus que la page de template que nous utilisons n'est pas en `php` ... elle n'est donc même pas "process" par `PHP` avant d'être servie au client. 
 
 On copie ensuite notre site (https://bootstrapmade.com/gp-free-multipurpose-html-bootstrap-template/) dans le dossier ```/var/www/html/``` de l'image.
 
