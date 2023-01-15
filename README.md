@@ -10,6 +10,9 @@ Le but de ce laboratoire est de découvrir et se familiariser avec différents o
 
 Le résultat final contiendra *(minimum)* deux serveurs HTTP (un dynamique et un statique), un reverse-proxy et un manager de containers Docker.
 
+### Note
+Les différentes infos données dans les "steps" ... ne sont parfois valable qu'à cette étape puisque certaines étapes ont nécessité l'édition des étapes précédentes ... 
+
 ## Step 1: Static HTTP server with apache httpd
 
 Les fichiers de configuration apache se trouvent dans le dossier ```/etc/apache2```. Dans notre cas nous n'avons pas touché aux fichiers de configuration car la config par défaut d'apache est suffisante.
@@ -18,17 +21,17 @@ Pour accéder à un container en exécution : ```docker exec -it <nom container>
 
 Ensuite on peut naviguer dans l'arborescence du système en utilisant la commande ```cd```.
 
-Le Dockerfile utilise l'image php 8.1 avec apache (```php:8.1-apache```). On copie ensuite notre site (https://bootstrapmade.com/gp-free-multipurpose-html-bootstrap-template/) dans le dossier ```/var/www/html/``` de l'image.
+Le Dockerfile utilise l'image php 8.1 avec apache (```php:8.1-apache```). Après quelques essais sur le contenu du labo, nous n'avons rencontré aucun problème à l'utilisation de php 8.1. Puisque nous n'avons éprouvé aucune des difficultés qu'on nous avait prédites, nous avons ainsi pris le parti d'utiliser la dernière version stable d'alors. Cela nous a semblé être une meilleure chose puisque cela retarde l'obsolescence de notre projet. 
+
+On copie ensuite notre site (https://bootstrapmade.com/gp-free-multipurpose-html-bootstrap-template/) dans le dossier ```/var/www/html/``` de l'image.
 
 Deux scripts sont disponibles:
  - ```build.ps1``` :  crée notre image à partir du Dockerfile 
  - ```run.ps1``` : lance un nouveau container à partir de l'image créée par build.ps1
 
+Pour faire tourner l'application, il suffit d'avoir Docker qui fonctionne et installé et le contenu de notre repo. Un simple ```.\build.ps1``` depuis le répertoire où il se trouve suivi d'un ```.\run.ps1``` permet alors de lancer le nécessaire. A noter encore qu'il faut que le port `80` soit disponible sur le PC en question.
+
 Si un container est en exécution : ```loaclhost:80``` (ou simplement ```loaclhost```, `80` étant le port par défaut pour le contenu web) pour accéder a notre site web.
-
-### Note
-
-Après quelques essais sur le contenu du labo, nous n'avons rencontré aucun problème à l'utilisation de php 8.1. Raison pour laquelle nous avons choisi de partir sur la version actuelle plutôt que la version précédente.
 
 ## Step 2: Dynamic HTTP server with express.js
 
@@ -54,7 +57,7 @@ De la même manière que pour l'étape 1, deux scripts sont disponibles :
  - ```build.ps1``` :  crée notre image à partir du Dockerfile 
  - ```run.ps1``` : lance un nouveau container à partir de l'image créée par build.ps1
 
-Si un container est en exécution on accède au site web dynamique à partir de ```localhost:3000```.
+Si un container est en exécution (```.\build.ps1``` suivi de ```.\run.ps1``` dans le répertoir qui les contient [avec le contenu de notre repo], pour autant que le port `3000` était préaéablement libre sur le PC) on accède au site web dynamique à partir de ```localhost:3000```.
 
 ### Note
 Le dossier `node_modules` n'a pas été `push` sur Github pour respecter les standards et car il est relativement volumineux. ~~De ce fait avant de `build` notre image, il faut générer le dossier en local. Pour ce faire, il faut utiliser la commande ```npm i``` dans le dossier ```/src/```  (là ou se trouvent ```package.json```).~~
@@ -63,6 +66,9 @@ Le dossier `node_modules` n'a pas été `push` sur Github pour respecter les sta
 
 ## Step 3: Docker compose to build the infrastructure
 
+### Note
+Ayant un doublé de `step3`, nous les avons faits ensembles, considérant qu'ils allaient de fait ensembles ... Ils sont donc documentés en commun ici.
+
 Les instructions sont stockées dans ```docker-compose.yml```
 
 Pour démarrer l'infrastructure utiliser : ```docker compose up``` ou le script ```run.ps1``` fourni.
@@ -70,7 +76,7 @@ Pour démarrer l'infrastructure utiliser : ```docker compose up``` ou le script 
 Le fichier docker-compose.yml permet de démarrer 3 containers/3 services de manière très simple et rapide. 
 
 Les 3 services sont:
- - reverse-proxy => un container utilisant Traefik pour faire du reverse-proxy
+ - reverse-proxy => un container utilisant Traefik pour faire du reverse-proxy (Apache n'étant plus recommandé au profit de ce dernier)
  - static => un container avec notre serveur HTTP static (apache-php)
  - dynamic => un container avec notre serveur HTTP dynamique (express.js)
 
@@ -98,7 +104,9 @@ On notera aussi que pour le service static et dynamic on ne précise pas le ```H
 
 ## Step 4: AJAX requests
 
-On choisi l'option avec montage de volume pour l'édition en live. On a aussi choisi l'utilisation de la Fetch API plustôt que de jQuery. Il n'y a pas eu grand-chose à configurer ... plutôt comprendre / apprendre / appliquer. Cela se voit relativement bien par les commits assez peu volumineux.
+Pour la réalisation / développement de cette étape, on choisi l'option avec montage de volume pour l'édition en live. On a aussi choisi l'utilisation de la `Fetch API` plustôt que de `jQuery`. Il n'y a pas eu grand-chose à configurer ... plutôt comprendre / apprendre / appliquer. Cela se voit relativement bien par les commits assez peu volumineux.
+
+Nous avons toutefois profité de cette étape pour "nettoyer" un peu la page qui était servie statiquement (qui était un "bête" template dont les sources sont mentionnées plus haut). On a alors notre partie de page "météo" (contenant le contenu dynamique du second serveur) qui est affiché dynamiquement ... et qui est référenceé plusieurs fosi sur la page.
 
 On peut construire le tout et tester avec la commande : 
 ```ps
@@ -125,23 +133,23 @@ Afin d'utiliser l'option sticky session, on ajoute les 2 labels suivants dans le
 On remarque que Traefik utilise des cookies pour gérer des sticky sessions.
 
 ### Procédure de validation
-La validation peut se faire en lançant plusieurs instances des serveurs webs, soit en faisant un docker compose up et en utilisant l'option ```--scale``` soit en utilisant les scripts fournis. Attention tout de même que ```docker compose up``` ne rebuild PAS les images, si les images doivent être rebuild utiliser la commande ```docker compose build``` avant de faire le ```docker compose up```, ou alternativement la commande ```docker compose up --build```.
+La validation peut se faire en lançant plusieurs instances des serveurs webs, soit en faisant un docker compose up et en utilisant l'option ```--scale``` soit en utilisant les scripts fournis. Attention tout de même que ```docker compose up``` ne **rebuild** PAS les images, si les images doivent être rebuild utiliser la commande ```docker compose build``` avant de faire le ```docker compose up```, ou alternativement la commande ```docker compose up --build```.
 
 Après le lancement, on doit voir dans la console un résultat similaire à ceci :
-![](images/scale.PNG)
+![capture of the console with 2 dynamic and 2 static instances](images/scale.PNG)
 Dans l'image ci-dessus, nous avons démarré 2 serveurs dynamiques et 2 serveurs statiques ainsi que le reverse-proxy.
 
 Si on se rend sur le site `static` et qu'on fait plusieurs refresh, on peut voir dans la console que c'est toujours le même container qui répond au client (serveur `static-2` en bleu foncé). 
-![](images/rrAndSticky.PNG)
+![capture of the console with always the same static instance replying](images/rrAndSticky.PNG)
 
 
 Si maintenant on stoppe le container qui répondait au client et qu'on refait un refresh de la page on voit que le load balancer fait bien son travail car c'est une autre instance du serveur statique qui répond au client (serveur `static-1` en violet). Par la même occasion on remarque aussi que les instances dynamiques continuent bien à utiliser du round-robin (alternance entre `dynamic-1` en bleu clair et `dynamic-2` en jaune).
-![](images/rrAndSticky2.PNG)
+![capture of the console with second static instance answering](images/rrAndSticky2.PNG)
 
 
 ## Step 6: Management UI
 
-Pour cette étape nous avons choisi une solution déjà existante trouvée sur Internet : Portainer.
+Pour cette étape nous avons choisi une solution déjà existante trouvée sur Internet : `Portainer`.
 
 Portainer est une plateforme de gestion de containers très populaire qui permet de déployer, configurer et dépanner des containers de manière simple et rapide. De plus Portainer n'est pas limité à Docker seulement, il peut aussi gérer d'autres environnements comme Kubernetes ou Nomad.
 
