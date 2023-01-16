@@ -72,4 +72,21 @@ Nous avons ajouté le service portainer dans le docker-compose en utilisant l'im
 
 On accède à l'UI portainer en utilisant le port 9000 (localhost:9000) depuis un navigateur
 
+On a utilisé le paramètre suivant :
+```
+    command: --admin-password '$$2y$$05$$bHa3AA9lWXhIZVM/JptlMua6HdA3s/8x0nhqKPAX8WGL.mNjxdwlK'
+```
+Pour paramétrer le mot de passe admin à la création de l'image. Sinon il est demandé au premier accès à la page d'en créer un. Cela donne ainsi la possibilité à quiconque accédant à la page avant nous de pouvoir avoir l'accès complet à notre système ! [BAD]. 
+
+La chaine correspond à un hash du mot de passe `adminpassword`. On note que cela permet en plus de nous afranchir des limitations (min 12 caractères) de mot de passe de l'interface graphique (mais si l'on en choisit un de longueur inférieure, alors il nous est demandé de le changer à la première connexion). La commande utilisée pour la générer est :
+```ps1
+docker run --rm httpd:2.4-alpine htpasswd -nbB admin 'adminpassword'
+```
+Qui nous a alors retourné :
+```
+admin:$2y$05$bHa3AA9lWXhIZVM/JptlMua6HdA3s/8x0nhqKPAX8WGL.mNjxdwlK
+```
+On ne prend pas la première partie qui correspond au nom d'utilisateur (`admin`, utilisé pour générer le hash), mais uniquement la seconde, qui correspond bien au hash. On doit de plus échapper les `$` par un second `$`, ce qui conduit à la chaine ci-dessus.
+
+Il va sans dire que c'est un très mauvais mot de passe et que dans un cas réel, il ne serait pas inclus "tel quel" en clair dans la documentation, mais dans le cadre de ce labortoire, cela convient bien pour démontrer la fonctionnalité.
 
