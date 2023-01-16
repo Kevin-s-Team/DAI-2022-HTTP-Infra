@@ -25,4 +25,4 @@ function updateMeteo(newData){
 	}
 }
 
-setInterval(getMeteo, 3000);
+setInterval(getMeteo, 6000);
